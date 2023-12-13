@@ -17,12 +17,20 @@ from jsonrpcbase import JSONRPCService, InvalidParamsError, KeywordError, \
 from jsonrpcbase import ServerError as JSONServerError
 
 from biokbase import log
-from eapearsonWidgetTest10.authclient import KBaseAuth as _KBaseAuth
+from installed_clients.authclient import KBaseAuth as _KBaseAuth
 
 try:
     from ConfigParser import ConfigParser
 except ImportError:
     from configparser import ConfigParser
+
+
+# BEGIN DS-SERVICE-WIDGET-IMPORT
+# Injected by the Dynamic Service Widget Tool
+#
+from widget.widget_handler import get_global_widget_support
+#
+# END DS-SERVICE-WIDGET-IMPORT
 
 DEPLOY = 'KB_DEPLOYMENT_CONFIG'
 SERVICE = 'KB_SERVICE_NAME'
@@ -353,6 +361,69 @@ class Application(object):
         ctx = MethodContext(self.userlog)
         ctx['client_ip'] = getIPAddress(environ)
         status = '500 Internal Server Error'
+
+        # BEGIN DS-SERVICE-WIDGET-PATH-HANDLER
+        # Injected by the Dynamic Service Widget Tool
+        #
+        path = environ['PATH_INFO']
+        if path.startswith('/widgets'):
+            widget_support = get_global_widget_support()
+            if widget_support is not None:
+                status, response_headers, content = widget_support.handle_widget(environ)
+                start_response(status, response_headers)
+                return [content]
+            else:
+                raise Exception('Widget support not yet available for /widgets!')
+
+        # For debugging
+        whitelist_keys = [
+            # Exposed locally
+            "REQUEST_METHOD",
+            "REQUEST_URI",
+            "PATH_INFO",
+            "QUERY_STRING",
+            "SERVER_PROTOCOL",
+            "SCRIPT_NAME",
+            "SERVER_NAME",
+            "SERVER_PORT",
+            "UWSGI_ROUTER",
+            "REMOTE_ADDR",
+            "REMOTE_PORT",
+            "HTTP_HOST",
+            "CONTENT_LENGTH",
+            "HTTP_PRAGMA",
+            "HTTP_CACHE_CONTROL",
+            # Only on server (proxied, etc.)
+            "HTTP_X_FORWARDED_FOR",
+            "HTTP_X_REAL_IP",
+            "HTTP_X_FORWARDED_PROTO",
+            "HTTP_CONNECTION",
+            "HTTP_ACCEPT_ENCODING",
+            "HTTP_CF_RAY",
+            "HTTP_CF_VISITOR",
+            "HTTP_CF_CONNECTING_IP",
+            "HTTP_CDN_LOOP",
+            "HTTP_CF_IPCOUNTRY",
+            # wsgi (just usable ones enabled)
+            # "wsgi.input",
+            # "wsgi.file_wrapper",
+            # "wsgi.version",
+            # "wsgi.errors",
+            # "wsgi.run_once",
+            # "wsgi.multithread",
+            # "wsgi.multiprocess",
+            # "wsgi.url_scheme",
+            # "uwsgi.version",
+            # "uwsgi.core",
+            # "uwsgi.node"
+
+        ]
+        ctx['environ'] = [(key, value) for (key, value) in environ.items() if key in whitelist_keys]
+        ctx['environ_omitted'] = [key for key in environ.keys() if key not in whitelist_keys]
+        #
+        # END DS-SERVICE-WIDGET-PATH-HANDLER
+
+
 
         try:
             body_size = int(environ.get('CONTENT_LENGTH', 0))

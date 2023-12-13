@@ -4,6 +4,12 @@ import logging
 import os
 
 from installed_clients.KBaseReportClient import KBaseReport
+# BEGIN DS-SERVICE-WIDGET-IMPORT
+# Injected by the Dynamic Service Widget Tool
+#
+from widget.widget_handler import WidgetSupport, set_global_widget_support
+#
+# END DS-SERVICE-WIDGET-IMPORT
 #END_HEADER
 
 
@@ -33,10 +39,26 @@ class eapearsonWidgetTest10:
     # be found
     def __init__(self, config):
         #BEGIN_CONSTRUCTOR
-        self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
         logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
                             level=logging.INFO)
+        # BEGIN DS-SERVICE-WIDGET-ADD-WIDGETS
+        # Injected by the Dynamic Service Widget Tool
+        #
+        service_module_name = __name__.split('.')[:1][0]
+        widget_support = WidgetSupport(config, service_module_name, self.GIT_COMMIT_HASH)
+        set_global_widget_support(widget_support)
+
+        # Add handlers for all widgets
+        widget_support.add_assets_widget('assets')
+        widget_support.add_static_widget('first')
+        widget_support.add_static_widget('media_viewer')
+        widget_support.add_python_widget('media_viewer_py', module="media_viewer", title="Media Viewer")
+        widget_support.add_python_widget('devtool')
+        widget_support.add_python_widget('demos')
+        widget_support.add_python_widget('config')    
+        #
+        # END DS-SERVICE-WIDGET-ADD-WIDGETS
         #END_CONSTRUCTOR
         pass
 
@@ -71,6 +93,8 @@ class eapearsonWidgetTest10:
         #BEGIN_STATUS
         returnVal = {'state': "OK",
                      'message': "",
+                     'environ': ctx.get('environ'),
+                     'environ_omitted': ctx.get('environ_omitted'),
                      'version': self.VERSION,
                      'git_url': self.GIT_URL,
                      'git_commit_hash': self.GIT_COMMIT_HASH}
