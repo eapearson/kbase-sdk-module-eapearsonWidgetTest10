@@ -3,7 +3,7 @@ import uuid
 import requests
 from requests.exceptions import RequestException, Timeout
 
-from lib.widget.widget_utils import WidgetError
+from widget.lib.widget_error import WidgetError
 
 
 class GenericClient(object):

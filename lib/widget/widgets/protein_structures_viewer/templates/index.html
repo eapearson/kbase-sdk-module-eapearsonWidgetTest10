@@ -39,6 +39,11 @@
                         Protein Structures
                     </button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">
+                        Overview
+                    </button>
+                </li>
                  <li class="nav-item" role="presentation">
                     <button class="nav-link"
                             id="test-tab"
@@ -98,7 +103,71 @@
                             {% endfor %}
                         </tbody>
                     </table>
-
+                </div>
+                <div class="tab-pane fade pt-3" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                    <table class="table">
+                         <colgroup>
+                            <col style="width: 14rem;" />
+                            <col />
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <td>{{ protein_structures_object.infostruct.wsid}}/{{ protein_structures_object.infostruct.objid }}/{{ protein_structures_object.infostruct.version }}</td>
+                            </tr>
+                            <tr>
+                                <th>Object Type</th>
+                                <td><a href="{{ ui_origin }}#spec/type/{{
+                                protein_structures_object.infostruct.type }}" target="_blank">{{
+                                protein_structures_object.infostruct.type}}</a></td>
+                            </tr>
+                            <tr>
+                                <th>Owner</th>
+                                <td><a href="{{ ui_origin }}#people/{{ workspace_info.owner }}" target="_blank">{{ workspace_info.owner }}</a></td>
+                            </tr>
+                            <tr>
+                                <th>Version</th>
+                                <td>{{ protein_structures_object.infostruct.version}}</td>
+                            </tr>
+                            <tr>
+                                <th>Version created at</th>
+                                <td>{{ protein_structures_object.infostruct.save_date }}</td>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ protein_structures_object.data.name or "<i>n/a</i>" }}</td>
+                            </tr>
+                            <tr>
+                                <th>Source</th>
+                                <td>{{ protein_structures_object.data.source_id or "<i>n/a</i>"}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h3>Metadata</h3>
+                    {% if protein_structures_object.infostruct.meta|count == 0 %}
+                        <div class="alert alert-info">No metadata for this object</div>
+                    {% else %}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for key, value in protein_structures_object.infostruct.meta.items() %}
+                                <tr>
+                                    <td>
+                                        {{ key }}
+                                    </td>
+                                    <td>
+                                        {{ value }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
                 </div>
                 <div class="tab-pane fade  pt-3" id="test" role="tabpanel" aria-labelledby="test-tab" >
                     <div style="flex: 1 1 0; overflow-y: auto;">
