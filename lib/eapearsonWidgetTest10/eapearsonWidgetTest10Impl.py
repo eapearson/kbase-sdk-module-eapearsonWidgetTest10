@@ -4,10 +4,12 @@ import logging
 import os
 
 from installed_clients.KBaseReportClient import KBaseReport
+
 # BEGIN DS-SERVICE-WIDGET-IMPORT
 # Injected by the Dynamic Service Widget Tool
 #
 from widget.widget_handler import WidgetSupport, set_global_widget_support
+
 #
 # END DS-SERVICE-WIDGET-IMPORT
 #END_HEADER
@@ -56,7 +58,8 @@ class eapearsonWidgetTest10:
         widget_support.add_python_widget('media_viewer_py', module="media_viewer", title="Media Viewer")
         widget_support.add_python_widget('devtool')
         widget_support.add_python_widget('demos')
-        widget_support.add_python_widget('config')    
+        widget_support.add_python_widget('config')
+        widget_support.add_python_widget('protein_structures_viewer')
         #
         # END DS-SERVICE-WIDGET-ADD-WIDGETS
         #END_CONSTRUCTOR
