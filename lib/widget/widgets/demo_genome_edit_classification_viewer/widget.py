@@ -1,6 +1,7 @@
 import json
 
 from widget.lib.widget_base import WidgetBase
+from widget.lib.widget_error import WidgetError
 
 
 class Widget(WidgetBase):
@@ -15,10 +16,23 @@ class Widget(WidgetBase):
 
         print('PARAMS', params)
 
-        output_object_ref = params['output_object_ref']
+        if 'output_genome_ref' not in params:
+            raise WidgetError(
+                title = 'Missing parameter "output_genome_ref"',
+                code = "missing-parameter",
+                message = 'The required parameter "output_genome_ref" was not provided'
+            )
+        output_genome_ref = params['output_genome_ref']
+
+        if 'change_log' not in params:
+            raise WidgetError(
+                title = 'Missing parameter "change_log"',
+                code = "missing-parameter",
+                message = 'The required parameter "change_log" was not provided'
+            )
         change_log = params['change_log']
 
-        [genome_object, workspace_info] = self.get_object(output_object_ref, ['KBaseGenomes.Genome'])
+        [genome_object, workspace_info] = self.get_object(output_genome_ref, ['KBaseGenomes.Genome'])
 
         print()
         print('GENOME OBJECT', json.dumps(genome_object, indent=4))
