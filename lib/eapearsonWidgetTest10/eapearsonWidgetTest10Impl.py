@@ -60,6 +60,7 @@ class eapearsonWidgetTest10:
         widget_support.add_python_widget('demos')
         widget_support.add_python_widget('config')
         widget_support.add_python_widget('protein_structures_viewer')
+        widget_support.add_python_widget('demo_genome_edit_classification_viewer')
         #
         # END DS-SERVICE-WIDGET-ADD-WIDGETS
         #END_CONSTRUCTOR
