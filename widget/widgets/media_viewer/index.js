@@ -127,7 +127,21 @@ const {ref, token, workspaceURL, uiOrigin} = (() => {
 
         const url = new URL(window.location.href);
 
-        const ref = url.searchParams.get('ref');
+        const params = (() => {
+            if (!url.searchParams.has('params')) {
+                return {};
+            }
+            return JSON.parse(url.searchParams.get('params'));
+        })();
+
+        for (const [key, value] of Array.from(url.searchParams.entries())) {
+            if (key === 'params') {
+                continue;
+            }
+            params[key] = value;
+        }
+
+        const ref = params['ref'];
 
         const token = (() => {
             const authCookie = document.cookie.split(';')
@@ -142,8 +156,6 @@ const {ref, token, workspaceURL, uiOrigin} = (() => {
             }
             return authCookie[0][1];
         })();
-
-        console.log('TOKEN', token);
 
         // TODO: check the token... or just use it, and if it fails, deal with it.
 

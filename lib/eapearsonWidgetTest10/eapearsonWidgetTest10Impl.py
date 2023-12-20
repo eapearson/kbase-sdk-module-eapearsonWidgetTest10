@@ -4,11 +4,10 @@ import logging
 import os
 
 from installed_clients.KBaseReportClient import KBaseReport
-
 # BEGIN DS-SERVICE-WIDGET-IMPORT
 # Injected by the Dynamic Service Widget Tool
 #
-from widget.widget_handler import WidgetSupport, set_global_widget_support
+from widget.lib.widget_support import WidgetSupport
 
 #
 # END DS-SERVICE-WIDGET-IMPORT
@@ -44,25 +43,20 @@ class eapearsonWidgetTest10:
         self.shared_folder = config['scratch']
         logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
                             level=logging.INFO)
-        # BEGIN DS-SERVICE-WIDGET-ADD-WIDGETS
+        # BEGIN DS-WIDGET SETUP-WIDGETS
         # Injected by the Dynamic Service Widget Tool
         #
-        service_module_name = __name__.split('.')[:1][0]
-        widget_support = WidgetSupport(config, service_module_name, self.GIT_COMMIT_HASH)
-        set_global_widget_support(widget_support)
 
-        # Add handlers for all widgets
-        widget_support.add_assets_widget('assets')
-        widget_support.add_static_widget('first')
-        widget_support.add_static_widget('media_viewer')
-        widget_support.add_python_widget('media_viewer_py', module="media_viewer", title="Media Viewer")
-        widget_support.add_python_widget('devtool')
-        widget_support.add_python_widget('demos')
-        widget_support.add_python_widget('config')
-        widget_support.add_python_widget('protein_structures_viewer')
-        widget_support.add_python_widget('demo_genome_edit_classification_viewer')
-        #
-        # END DS-SERVICE-WIDGET-ADD-WIDGETS
+        # We take the service packcage name from first component of the Python module path.
+        service_package_name = __name__.split('.')[:1][0]
+
+        WidgetSupport(
+            service_config = config,
+            service_package_name = service_package_name,
+            service_instance_hash = self.GIT_COMMIT_HASH,
+        ).set_global()
+
+        # END DS-WIDGET SETUP-WIDGETS
         #END_CONSTRUCTOR
         pass
 

@@ -8,7 +8,6 @@
         <script src="https://cdn.datatables.net/v/bs5/dt-1.13.6/sc-2.2.0/datatables.min.js"></script>
         <!-- <link href="{{ base_path }}/widgets/assets/style.css" rel="stylesheet"> -->
         <script src="{{ asset_url }}/js/lib.js"></script>
-        <link href="{{ widget_asset_url }}/style.css" rel="stylesheet">
     </head>
     <body>
         <ul class="nav nav-tabs" role="tablist" id="media-tabs">
@@ -182,78 +181,10 @@
                         In this case, it is a data viewer for "media" objects.
                     </p>
                     <p>
-                        The point of this specific viewer is to create an object viewer with minimal custom Javascript.
-                    For example, this widget uses bootstrap for most support. For example, the table styling, and tab
-                        styling and functionality.
-                    </p>
-
-                    <p>
-                        Otherwise, all of the application logic - auth, api access, data transformations - is handled
-                        in Python with Jinja2 templates.
-                    </p>
-
-                    <p>
-                        Now, the media viewer should also allow display of individual compounds. This gets us to seek a simpler solution.
-                        It ends up that the only different content displayed in the compound detail tab is the
-                        compound image. It is actually much nicer to show the compound image in the table anyway.
-                        So in this version of the viewer, we show the image in the table. We may allow inspection of
-                        the detail in a pop-up, which would show a larger image and possibly more detail.
-                    </p>
-                    <p>
-                        We also enhance the viewer by showing a custom broken-image image if the compound
-                        image was not found. It looks like <img src="{{ widget_asset_url }}/broken-image.png" alt="Missing image image">
-                    </p>
+                  
                 </div>
             </div>
         </div>
-        <script>
-            // decouple from WidgetRuntime for now ... need to fold the widget runtime
-            // support into the iframe wrapper in the demo / devtool
-            // class MediaViewerRuntime extends fWidgetRuntime {
-            class MediaViewerRuntime {
-                constructor() {
-                    // super();
-
-                    // Initialize data table for the compounds table
-                    this.compoundsTable = new DataTable('#compounds-table', {
-                        paging: false,
-                        scrollCollapse: true,
-                        scrollY: 'auto',
-                        dom: '<"dataTablesOverride-top"if>t'
-                    });
-
-                    // A little hack to get the header to size correctly, as it is initially
-                    // sized within the hidden second tab.
-                    $('button[data-bs-toggle="tab"]').on('shown.bs.tab', (ev) => {
-                        if (this.widgetStateUpdated) {
-                            this.widgetStateUpdated({
-                                tab: ev.target.id
-                            });
-                        }
-                        const id = ev.target.id;
-                        if (id !== 'compounds-tab') {
-                            return;
-                        }
-                        this.compoundsTable.columns.adjust();
-                    });
-                }
-
-                start({authentication, config, params, state}) {
-                    // console.log('IN START!', state);
-                    // Select the tab, if set
-                    if ('tab' in state) {
-                        const tabId = state.tab;
-                        const $tab = $(`button[data-bs-toggle="tab"][id="${tabId}"]`);
-                        const tab = new bootstrap.Tab($tab);
-                        console.log('setting tab', tabId, $tab, tab)
-                        tab.show();
-                    }
-
-                    this.channel.send('set-title', {title: "{{ genome_object.data.name }}"})
-                }
-            }
-
-            const runtime = new MediaViewerRuntime();
-        </script>
+        
     </body>
 </html>

@@ -6,18 +6,17 @@ import os
 import random as _random
 import sys
 import traceback
-from getopt import getopt, GetoptError
+from getopt import GetoptError, getopt
 from multiprocessing import Process
 from os import environ
 from wsgiref.simple_server import make_server
 
 import requests as _requests
-from jsonrpcbase import JSONRPCService, InvalidParamsError, KeywordError, \
-    JSONRPCError, InvalidRequestError
-from jsonrpcbase import ServerError as JSONServerError
-
 from biokbase import log
 from installed_clients.authclient import KBaseAuth as _KBaseAuth
+from jsonrpcbase import (InvalidParamsError, InvalidRequestError, JSONRPCError,
+                         JSONRPCService, KeywordError)
+from jsonrpcbase import ServerError as JSONServerError
 
 try:
     from ConfigParser import ConfigParser
@@ -28,7 +27,8 @@ except ImportError:
 # BEGIN DS-SERVICE-WIDGET-IMPORT
 # Injected by the Dynamic Service Widget Tool
 #
-from widget.widget_handler import get_global_widget_support
+from widget.lib.widget_support import get_global_widget_support
+
 #
 # END DS-SERVICE-WIDGET-IMPORT
 
@@ -59,7 +59,9 @@ def get_config():
 
 config = get_config()
 
-from eapearsonWidgetTest10.eapearsonWidgetTest10Impl import eapearsonWidgetTest10  # noqa @IgnorePep8
+from eapearsonWidgetTest10.eapearsonWidgetTest10Impl import \
+    eapearsonWidgetTest10  # noqa @IgnorePep8
+
 impl_eapearsonWidgetTest10 = eapearsonWidgetTest10(config)
 
 

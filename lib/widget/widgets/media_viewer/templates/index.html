@@ -63,8 +63,8 @@
                                         <img class="compound-image"
                                             src="https://minedatabase.mcs.anl.gov/compound_images/ModelSEED/{{ row.id }}.png"
                                             alt="Image for compound '{{ row.id }}'"
-                                            style="width: 100px"
-                                            onerror="this.onerror=null;this.src='{{ asset_url }}/media_viewer/broken-image.png'"
+                                            style="width: 50px"
+                                            onerror="this.onerror=null;this.src='{{ widget_asset_url }}/broken-image.png'"
                                         >
                                     {% else %}
                                         <i>n/a</i>

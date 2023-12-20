@@ -8,7 +8,8 @@ services:
     build:
       context: .
     container_name: eapearsonwidgettest10
-    hostname: eapearsonwidgettest10
+    # should match the exact module name
+    hostname: eapearsonWidgetTest10
     dns: 8.8.8.8
     volumes:
       - .:/kb/module
