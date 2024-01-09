@@ -7,7 +7,9 @@
         <link href="https://cdn.datatables.net/v/bs5/dt-1.13.6/sc-2.2.0/datatables.min.css" rel="stylesheet">
         <script src="https://cdn.datatables.net/v/bs5/dt-1.13.6/sc-2.2.0/datatables.min.js"></script>
         <!-- <link href="{{ base_path }}/widgets/assets/style.css" rel="stylesheet"> -->
-        <script src="{{ asset_url }}/js/lib.js"></script>
+        <!-- <script src="{{ asset_url }}/js/SendChannel.js"></script>
+        <script src="{{ asset_url }}/js/ReceiveChannel.js"></script>
+        <script src="{{ asset_url }}/js/lib.js" type="module"></script> -->
     </head>
     <body>
         <ul class="nav nav-tabs" role="tablist" id="media-tabs">
@@ -185,6 +187,14 @@
                 </div>
             </div>
         </div>
-        
+        <script type="module">
+            import {WidgetRuntime} from '{{ asset_url }}/js/lib.js';
+            window.addEventListener('load', () => {
+                class Runtime extends WidgetRuntime {
+                }
+
+                const runtime = new Runtime();
+            });
+        </script>
     </body>
 </html>
