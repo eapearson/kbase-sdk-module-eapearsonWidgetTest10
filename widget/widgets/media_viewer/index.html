@@ -162,7 +162,6 @@
             async function main() {
                 const widgetBasePath = (() => {
                     const match = window.location.pathname.match(/^(.*)\/widgets\/(.+)$/);
-                    console.log('match?', window.location.pathname, match);
                     if (!match) {
                         throw new Error('Invalid widget url -- cannot construct widget base path');
                     }
