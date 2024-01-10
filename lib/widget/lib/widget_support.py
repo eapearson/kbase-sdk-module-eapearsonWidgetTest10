@@ -2,7 +2,6 @@ import os
 import re
 
 import yaml
-
 from widget.handlers.assets import Assets
 from widget.handlers.python_widget import PythonWidget
 from widget.handlers.static_widget import StaticWidget
@@ -189,5 +188,23 @@ class WidgetSupport(object):
         global GLOBAL_WIDGET_SUPPORT
         GLOBAL_WIDGET_SUPPORT = self
 
-def get_global_widget_support():
-    return GLOBAL_WIDGET_SUPPORT
+
+def handle_widget_request(http_environment):
+    """
+    """
+    path = http_environment['PATH_INFO']
+
+    # All widget access is rooted at /widgets.
+    if not path.startswith('/widgets'):
+        return None
+
+    # Global widget support is created by the implementation module, which must itself
+    # be created before the service can operate, so it is safe to assume it is
+    # initialized by the time a request is handled, and this function called.
+    widget_support = GLOBAL_WIDGET_SUPPORT
+    if widget_support is None:
+        # raise ServerError('Widget support not yet available for /widgets!')
+        error_message = 'Widget support not yet available for /widgets!'
+        return "500 Internal Server Error", {'content-type': 'text/plain'}, error_message
+
+    return widget_support.handle_widget(http_environment)

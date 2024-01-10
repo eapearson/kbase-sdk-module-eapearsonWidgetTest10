@@ -14,7 +14,6 @@ function getParamsFromURL() {
     if (!iframeParams) {
         throw new Error('Cannot get "iframeParams" from url!')
     }
-    console.log('iframe params?', JSON.parse(iframeParams));
     return JSON.parse(iframeParams);
 }
 
@@ -137,7 +136,6 @@ export class WidgetRuntime {
     constructor() {
         const iframeParams = getParamsFromURL();
         const {hostChannelId, appChannelId, hostOrigin} = iframeParams;
-        // console.log('parent or contentWIndow?', window.parent, window.contentWindow);
         this.sendChannel = new SendChannel({
             window: window.parent,
             targetOrigin: hostOrigin,

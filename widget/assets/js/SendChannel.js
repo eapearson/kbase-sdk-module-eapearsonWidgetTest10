@@ -42,8 +42,6 @@ export default class SendChannel {
 
         this.partnerId = to;
 
-        // console.log('SEND CHANNEL', window, targetOrigin, id, to)
-
         this.stats = {
             sent: 0,
             received: 0,
