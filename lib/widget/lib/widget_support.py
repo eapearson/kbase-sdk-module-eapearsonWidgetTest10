@@ -2,6 +2,7 @@ import os
 import re
 
 import yaml
+
 from widget.handlers.assets import Assets
 from widget.handlers.python_widget import PythonWidget
 from widget.handlers.static_widget import StaticWidget
@@ -36,9 +37,11 @@ class WidgetSupport(object):
         else:
             self.base_path = f"/dynserv/{service_instance_hash}.{service_package_name}"
             
-        result = re.match(r'^((?:.+)://(?:.+?))(?:/.*)?$', service_config['kbase-endpoint'])
+        result = re.match(r'^(.+)://(.+?)(?:/.*)?$', service_config['kbase-endpoint'])
 
-        origin = result.group(1)
+        protocol = result.group(1)
+        hostname = result.group(2)
+        origin = f'{protocol}//{hostname}'
 
         #
         # UI origin is designed to match the kbase deploy environment, not this service,
@@ -46,8 +49,11 @@ class WidgetSupport(object):
         #
         if origin == 'https://kbase.us':
             self.ui_origin = 'https://narrative.kbase.us'
+            self.deploy_environment = 'prod'
         else:
             self.ui_origin = origin
+            deploy_env, _, _ = '.'.split(hostname)
+            self.deploy_environment = deploy_env
 
         #
         # Here we create a set of origins and urls that point back to this service.
@@ -109,6 +115,7 @@ class WidgetSupport(object):
             "runtime_mode": self.runtime_mode,
             "base_path": self.base_path,
             "ui_origin": self.ui_origin,
+            "deploy_environment": self.deploy_environment,
             "service_origin": self.service_origin,
             "service_url": self.service_url
         }
