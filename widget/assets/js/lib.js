@@ -139,15 +139,15 @@ export class WidgetRuntime {
         this.sendChannel = new SendChannel({
             window: window.parent,
             targetOrigin: hostOrigin,
-            id: appChannelId,
-            to: hostChannelId
+            // id: appChannelId,
+            channel: hostChannelId
         });
 
         this.receiveChannel = new ReceiveChannel({
             window,
-            id: appChannelId
+            channel: appChannelId
         });
-        this.receiveChannel.receiveFrom(hostChannelId);
+        // this.receiveChannel.receiveFrom(hostChannelId);
 
 
         // The 'start' message is sent by the Narrative after receiving the
@@ -226,7 +226,7 @@ export class WidgetRuntime {
         this.receiveChannel.start();
 
         // Tells the narrative we are ready, and can receive messages from it.
-        this.sendChannel.send('ready', {channelId: this.sendChannel.getId()});
+        this.sendChannel.send('ready', {});
     }
 
     widgetStateUpdated (widgetState) {
@@ -312,7 +312,7 @@ function $addTab(tabsId, id, label) {
 }
 
  // Cheap hack, no cookie yet, no params yet...
- function $uilink(origin, path, label, type='kbaseui', newWindow=true) {
+export  function $uilink(origin, path, label, type='kbaseui', newWindow=true) {
     const url = new URL(origin);
     switch (type) {
         case 'kbaseui':
@@ -329,7 +329,7 @@ function $addTab(tabsId, id, label) {
     return $link;
     
 }
-function getMetadata(objectInfo, propName, handler) {
+export function getMetadata(objectInfo, propName, handler) {
     let value;
     if (!objectInfo.metadata) {
         value = undefined;

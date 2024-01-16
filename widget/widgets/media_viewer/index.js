@@ -1,3 +1,6 @@
+import { ServiceClient, objectInfoToObject, workspaceInfoToObject } from '../assets/js/client.js';
+import { $uilink, getMetadata } from '../assets/js/lib.js';
+
 async function render({token, ref, workspaceURL, uiOrigin}) {
     // Spinners everywhere!
     ["media_object_info_id", "media_object_info_type", "media_object_info_owner",
@@ -181,4 +184,6 @@ async function main(props) {
     }
 }
 
-main({ ref, token, workspaceURL, uiOrigin });
+export function start() {
+    main({ ref, token, workspaceURL, uiOrigin });
+}
