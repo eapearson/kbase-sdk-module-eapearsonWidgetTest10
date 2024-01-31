@@ -53,7 +53,7 @@ class PythonWidget(object):
             cookie.load(browser_cookie)
             if 'kbase_session' in cookie:
                 token = cookie['kbase_session'].value
-            if self.widget_config.get('deploy_environment') == 'prod' and 'kbase_session_backup' in cookie:
+            elif self.widget_config.get('deploy_environment') == 'prod' and 'kbase_session_backup' in cookie:
                 token = cookie['kbase_session_backup'].value
             else:
                 token = None
