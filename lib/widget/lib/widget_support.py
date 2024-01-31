@@ -2,7 +2,6 @@ import os
 import re
 
 import yaml
-
 from widget.handlers.assets import Assets
 from widget.handlers.python_widget import PythonWidget
 from widget.handlers.static_widget import StaticWidget
@@ -41,7 +40,7 @@ class WidgetSupport(object):
 
         protocol = result.group(1)
         hostname = result.group(2)
-        origin = f'{protocol}//{hostname}'
+        origin = f'{protocol}://{hostname}'
 
         #
         # UI origin is designed to match the kbase deploy environment, not this service,
