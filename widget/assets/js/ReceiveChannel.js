@@ -113,7 +113,7 @@ export default class ReceiveChannel {
             return;
         }
 
-        // Ignore messages intended for another channels.
+        // Ignore messages intended for other channels.
         if (message.envelope.channel !== this.channel) {
             return;
         }

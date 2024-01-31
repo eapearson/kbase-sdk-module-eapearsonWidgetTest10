@@ -135,17 +135,17 @@ class KBResizeObserver {
 export class WidgetRuntime {
     constructor() {
         const iframeParams = getParamsFromURL();
-        const {hostChannelId, appChannelId, hostOrigin} = iframeParams;
+        const {channelId, hostOrigin} = iframeParams;
         this.sendChannel = new SendChannel({
             window: window.parent,
             targetOrigin: hostOrigin,
             // id: appChannelId,
-            channel: hostChannelId
+            channel: channelId
         });
 
         this.receiveChannel = new ReceiveChannel({
             window,
-            channel: appChannelId
+            channel: channelId
         });
         // this.receiveChannel.receiveFrom(hostChannelId);
 
