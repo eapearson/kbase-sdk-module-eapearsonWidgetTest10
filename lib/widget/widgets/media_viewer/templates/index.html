@@ -35,17 +35,7 @@
             <div class="tab-pane fade show active pt-3
             dataTablesOverride-ScrollingFlexFix" id="compounds" role="tabpanel"
             aria-labelledby="compounds-tab">
-                ({{ asset_url }})
-                <script>
-                    async function test() {
-                    const url = "{{ asset_url }}/css/style.css";
-                    const response = await fetch(url);
-                    const text = await response.text();
-                    console.log(`using url: x${url}x`);
-                    console.log('GOT?', text);
-                    }
-                    test();
-                </script>
+
                 <table class="display table"  style="width: 100%" id="compounds-table">
                     <thead>
                         <tr>
