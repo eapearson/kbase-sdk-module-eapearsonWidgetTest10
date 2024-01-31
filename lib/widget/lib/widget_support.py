@@ -52,7 +52,7 @@ class WidgetSupport(object):
             self.deploy_environment = 'prod'
         else:
             self.ui_origin = origin
-            deploy_env, _, _ = '.'.split(hostname)
+            deploy_env, _, _ = hostname.split('.')
             self.deploy_environment = deploy_env
 
         #
@@ -77,7 +77,6 @@ class WidgetSupport(object):
             #
             self.service_origin = origin
             self.service_url = origin + self.base_path
-
 
         self.initialize_widgets()
 
